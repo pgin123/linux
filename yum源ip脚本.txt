@@ -1,0 +1,27 @@
+#!/bin/bash
+read -p "请输入ip地址:" a
+read -p "请输入主机名:" b
+echo $b > /etc/hostname
+nmcli connection modify eth0 ipv4.method manual ipv4.addresses 192.168.$a/24 connection.autoconnect yes
+nmcli connection up eth0
+rm -rf *
+rm -rf /etc/yum.repos.d/*
+reboot
+
+
+
+
+
+#!/bin/bash
+echo "[A]
+name=a
+baseurl=ftp://192.168.4.254/rhel7
+enabled=1
+gpgcheck=0" > /etc/yum.repos.d/1.repo
+yum clean all
+yum repolist
+rm -rf *
+ls
+sleep 1
+reset
+
