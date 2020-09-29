@@ -1,0 +1,103 @@
+命令行操作（需要联网的主机，如真实机）
+
+[root@pc001 ~]# yum -y install git
+
+[root@web1 ~]# mkdir -p /var/lib/git
+[root@web1 ~]# git init /var/lib/git/project --bare
+[root@web1 ~]# ls /var/lib/git/project
+
+[root@web2 ~]# git clone root@192.168.2.100:/var/lib/git/project
+[root@web2 project]# git config --global user.email "you@example.com"
+[root@web2 project]# git config --global user.name "Your Name"
+[root@web2 project]# git config --global  core.edit vim
+[root@web2 project]# cat ~/.gitconfig
+    
+
+[root@web2 project]# echo "init date" > init.txt
+[root@web2 project]# mkdir demo
+[root@web2 project]# cp /etc/hosts demo
+[root@web2 project]# git status
+[root@web2 project]# git add .
+[root@web2 project]# git commit  -m  "注释，可以为任意字符"
+[root@web2 project]# git status
+
+[root@web2 project]# echo "789" > num.txt
+[root@web2 project]# git add .
+[root@web2 project]# git commit -m "num.txt:789"
+[root@web2 project]# git push
+
+
+
+将本地仓库中的数据推送到远程服务器(web2将数据推送到web1)。
+[root@web2 project]# git config --global push.default simple
+[root@web2 project]# git push
+[root@192.168.2.100's password:  输入服务器root密码    
+[root@web2 project]# git status
+
+ 将服务器上的数据更新到本地
+[root@web2 project]# git pull
+
+解决版本分支的冲突问题
+    [root@web2 project]# git checkout hotfix
+    [root@web2 project]# echo "AAA" > a.txt
+    [root@web2 project]# git add .
+    [root@web2 project]# git commit -m "add a.txt by hotfix"
+    [root@web2 project]# git checkout master
+    [root@web2 project]# echo "BBB" > a.txt
+    [root@web2 project]# git add .
+    [root@web2 project]# git commit -m "add a.txt by master"
+    [root@web2 project]# git merge hotfix
+    自动合并 a.txt
+    冲突（添加/添加）：合并冲突于 a.txt
+    自动合并失败，修正冲突然后提交修正的结果。
+
+
+查看有冲突的文件内容，修改文件为最终版本的数据，解决冲突。
+    [root@web2 project]# cat a.txt                #该文件中包含有冲突的内容
+    <<<<<<< HEAD
+    BBB
+    =======
+    AAA
+    >>>>>>> hotfix
+    [root@web2 project]# vim a.txt              #修改该文件，为最终需要的数据，解决冲突
+    BBB
+    [root@web2 project]# git add .
+    [root@web2 project]# git commit -m "resolved"
+
+
+
+
+查看版本日志,查看Git版本信息
+[root@web2 project]# git log
+[root@web2 project]# git log --pretty=oneline
+[root@web2 project]# git log --oneline
+[root@web2 project]# git reflog
+
+
+
+命令行操作（需要联网的主机，如真实机）
+
+[root@pc001 ~]# yum -y install git
+
+[root@pc001 ~]# git clone https://github.com/账户名称/仓库名称
+
+#clone指令用于将服务器仓库中的资料打包下载到本地
+
+[root@pc001 ~]# cd 仓库名称
+
+[root@pc001 ~]# 任意修改文件，或新建文件
+
+[root@pc001 ~]# git add .
+
+#add添加新文件
+
+[root@pc001 ~]# git commit -m "test"
+
+[root@pc001 ~]# git push
+
+#commit和push实现提交代码的功能
+
+[root@pc001 ~]# git pull
+
+#pull可以从githuab服务器拉取数据到本地
+
